@@ -6,6 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const blocksDeliveryPhotos = document.querySelectorAll('.section-delivery-middle__photo-descr');
 
 
+  const itemsAvailable = listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain');
+  let goodsPrices = [];
+
+  for (let i = 0; i<itemsAvailable.length; i++){
+    let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+    let itemTotalPrice = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
+    let itemPreviosTotalPrice = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML.split(' ').join(''));
+
+    let itemPrice = Math.round(itemTotalPrice/itemAmount);
+    let itemPreviosPrice = Math.round(itemPreviosTotalPrice/itemAmount);
+    let itemDiscount = itemPreviosPrice - itemPrice;
+
+    goodsPrices.push({'itemPrice': itemPrice, 'itemPreviosPrice': itemPreviosPrice, 'itemDiscount': itemDiscount})
+  }
+
+
+
   const accordionHeaders = document.querySelectorAll('.section-cart-accordion__header');
 
   accordionHeaders.forEach(function(accordionHeader){
@@ -708,18 +725,44 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalDiscount = 0;
     let totalAmount = 0;
 
-    listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
+    for (let i = 0; i<itemsAvailable.length; i++){
+      if (itemsAvailable[i].querySelector('.section-cart-accordion-list__item-input').checked) {
+        let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+
+
+        totalSumm += itemAmount*goodsPrices[i].itemPrice;
+        totalPreviousSumm += itemAmount*goodsPrices[i].itemPreviosPrice;
+        totalAmount += itemAmount
+        totalDiscount += itemAmount*goodsPrices[i].itemDiscount;
+
+        itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${itemAmount*goodsPrices[i].itemPrice}`;
+        itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${itemAmount*goodsPrices[i].itemPreviosPrice} сом`;
+        
+      };
+    }
+
+    /*listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
       if (el.querySelector('.section-cart-accordion-list__item-input').checked) {
         let itemAmount = parseInt(el.querySelector('.section-cart-accordion-list__item-count').innerHTML);
-        let itemPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
-        let itemPreviosPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML.split(' ').join(''));
-        let itemDiscount = itemPreviosPrice - itemPrice;
+        let itemTotalPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
+        let itemPreviosTotalPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML.split(' ').join(''));
+        let itemDiscount;
+
+        if(itemPreviosAmount){
+          totalSumm += itemAmount*(itemTotalPrice/itemPreviosAmount);
+          console.log(itemTotalPrice/itemPreviosAmount)
+          totalPreviousSumm += itemAmount*(itemPreviosTotalPrice/itemPreviosAmount);
+          itemDiscount = (itemPreviosTotalPrice - itemTotalPrice)/itemPreviosAmount;
+        } else {
+          totalSumm += itemTotalPrice;
+          totalPreviousSumm += itemPreviosTotalPrice
+        }
+
+        itemDiscount = (itemPreviosTotalPrice - itemTotalPrice)/itemAmount;
         totalAmount += itemAmount
-        totalSumm += itemAmount*itemPrice;
-        totalPreviousSumm += itemAmount*itemPreviosPrice
         totalDiscount += itemAmount*itemDiscount;
       };
-    });
+    });*/
 
     if (totalAmount%10===1 && totalAmount!==11){
       blockForPrice.querySelector('.section-total-top__item-amount').innerHTML = `${totalAmount}`+' '+'товар';
