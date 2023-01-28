@@ -506,7 +506,7 @@
 }
 
 .section-recipient-form__input:focus + .section-recipient-form__label{
-  top: -18px;
+  top: -24px;
   opacity: 1;
   font-size: 13px;
   line-height: 22px;

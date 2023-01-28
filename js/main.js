@@ -193,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } 
   });
 
+
   for(let i in massInputs){
     massInputs[i].addEventListener('blur', () => {
       if(massInputs[i].value){
