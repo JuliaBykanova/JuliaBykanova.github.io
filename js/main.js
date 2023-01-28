@@ -188,8 +188,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });*/
 
   telInput.addEventListener("keypress", function(){
-    if (this.value.length===2 || this.value.length===6 || this.value.length===10 || this.value.length===13){
+    if (this.value.length===18){
       this.value=this.value+" ";
+    } 
+  });
+
+  telInput.addEventListener("keypress", function(){
+    if (this.value.length===2){
+      this.value=this.value+" (";
+    } 
+  });
+
+  telInput.addEventListener("keypress", function(){
+    if (this.value.length===7){
+      this.value=this.value+") ";
+    } 
+  });
+
+  telInput.addEventListener("keypress", function(){
+    if (this.value.length===12 || this.value.length===15){
+      this.value=this.value+"-";
     } 
   });
 
@@ -681,7 +699,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!tel){
       textErrorTel = 'Укажите номер телефона';
     } else if(!validateTel(tel)){
-      textErrorTel = 'Формат: +9 999 999 99 99';
+      textErrorTel = 'Формат: +9 (999) 999-99-99';
     }
     return(textErrorTel);
   }
@@ -708,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function validateTel(tel){
     return tel.match(
-      /^[+][0-9][\s][0-9]{3}[\s][0-9]{3}[\s][0-9]{2}[\s][0-9]{2}$/
+      /^[+][0-9][\s][(][0-9]{3}[)][\s][0-9]{3}[-][0-9]{2}[-][0-9]{2}$/
     );
   };
 
