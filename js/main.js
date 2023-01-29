@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let itemTotalPrice = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
     let itemPreviosTotalPrice = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML.split(' ').join(''));
 
-    let itemPrice = Math.round(itemTotalPrice/itemAmount);
-    let itemPreviosPrice = Math.round(itemPreviosTotalPrice/itemAmount);
+    let itemPrice = parseFloat((itemTotalPrice/itemAmount).toFixed(3));
+    let itemPreviosPrice = parseFloat((itemPreviosTotalPrice/itemAmount).toFixed(3));
     let itemDiscount = itemPreviosPrice - itemPrice;
 
     goodsPrices.push({'itemPrice': itemPrice, 'itemPreviosPrice': itemPreviosPrice, 'itemDiscount': itemDiscount})
@@ -53,13 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(totalSumm)
           }
         }
-
+        
         if (totalAmount%10===1 && totalAmount!==11){
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товар'+' · '+makeStrfromNumber(totalSumm);
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товар'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
         } else if ((totalAmount%10===2 || totalAmount%10===3 || totalAmount%10==4) && (totalAmount!==12 || totalAmount!==13 || totalAmount!==14)){
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товара'+' · '+makeStrfromNumber(totalSumm);
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товара'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
         } else{
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товаров'+' · '+makeStrfromNumber(totalSumm);
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товаров'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
         };
       };
     });
@@ -765,15 +765,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (itemsAvailable[i].classList.contains('section-cart-accordion-list__item-remain')) {
         if (itemsAvailable[i].querySelector('.section-cart-accordion-list__item-input').checked) {
           let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
-  
-  
-          totalSumm += itemAmount*goodsPrices[i].itemPrice;
-          totalPreviousSumm += itemAmount*goodsPrices[i].itemPreviosPrice;
+          let totalItemPrice = parseFloat((itemAmount*goodsPrices[i].itemPrice).toFixed(3));
+          let totalItemPreviosPrice = parseFloat((itemAmount*goodsPrices[i].itemPreviosPrice).toFixed(3));
+          
+          totalSumm += totalItemPrice;
+          totalPreviousSumm += totalItemPreviosPrice;
           totalAmount += itemAmount
           totalDiscount += itemAmount*goodsPrices[i].itemDiscount;
   
-          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${itemAmount*goodsPrices[i].itemPrice}`;
-          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${itemAmount*goodsPrices[i].itemPreviosPrice} сом`;
+          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${totalItemPrice}`;
+          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${totalItemPreviosPrice} сом`;
           
         };
       }
