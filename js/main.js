@@ -21,8 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     goodsPrices.push({'itemPrice': itemPrice, 'itemPreviosPrice': itemPreviosPrice, 'itemDiscount': itemDiscount})
   }
 
-
-
   const accordionHeaders = document.querySelectorAll('.section-cart-accordion__header');
 
   accordionHeaders.forEach(function(accordionHeader){
@@ -36,14 +34,25 @@ document.addEventListener("DOMContentLoaded", () => {
         let totalSumm = 0;
         let totalAmount = 0;
 
-        listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
+        /*listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
           let itemAmount = parseInt(el.querySelector('.section-cart-accordion-list__item-count').innerHTML);
           let itemPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
 
           totalAmount += itemAmount;
           totalSumm += itemAmount*itemPrice;
 
-        });
+        });*/
+
+        for (let i = 0; i<itemsAvailable.length; i++){
+          if (itemsAvailable[i].classList.contains('section-cart-accordion-list__item-remain')) {
+            const itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+            const itemPrice = goodsPrices[i].itemPrice;
+            console.log(itemPrice)
+            totalAmount += itemAmount;
+            totalSumm += itemAmount*itemPrice;
+            console.log(totalSumm)
+          }
+        }
 
         if (totalAmount%10===1 && totalAmount!==11){
           accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товар'+' · '+makeStrfromNumber(totalSumm);
@@ -160,7 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const indexInput = document.getElementById('index');
   const massInputs = [nameInput, surnameInput, emailInput, telInput, indexInput];
 
-  
+  if (window.screen.availWidth < 685){
+    emailInput.parentNode.querySelector('.section-recipient-form__label').innerHTML = 'Электронная почта'
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.screen.availWidth < 685){
+      emailInput.parentNode.querySelector('.section-recipient-form__label').innerHTML = 'Электронная почта'
+    }
+  })
 
   telInput.addEventListener('focus', function() {
     if(!this.value.trim()){
@@ -745,19 +762,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalAmount = 0;
 
     for (let i = 0; i<itemsAvailable.length; i++){
-      if (itemsAvailable[i].querySelector('.section-cart-accordion-list__item-input').checked) {
-        let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+      if (itemsAvailable[i].classList.contains('section-cart-accordion-list__item-remain')) {
+        if (itemsAvailable[i].querySelector('.section-cart-accordion-list__item-input').checked) {
+          let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+  
+  
+          totalSumm += itemAmount*goodsPrices[i].itemPrice;
+          totalPreviousSumm += itemAmount*goodsPrices[i].itemPreviosPrice;
+          totalAmount += itemAmount
+          totalDiscount += itemAmount*goodsPrices[i].itemDiscount;
+  
+          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${itemAmount*goodsPrices[i].itemPrice}`;
+          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${itemAmount*goodsPrices[i].itemPreviosPrice} сом`;
+          
+        };
+      }
 
-
-        totalSumm += itemAmount*goodsPrices[i].itemPrice;
-        totalPreviousSumm += itemAmount*goodsPrices[i].itemPreviosPrice;
-        totalAmount += itemAmount
-        totalDiscount += itemAmount*goodsPrices[i].itemDiscount;
-
-        itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${itemAmount*goodsPrices[i].itemPrice}`;
-        itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${itemAmount*goodsPrices[i].itemPreviosPrice} сом`;
-        
-      };
     }
 
     /*listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
