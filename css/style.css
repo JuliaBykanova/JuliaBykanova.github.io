@@ -152,6 +152,8 @@ body{
   overflow: hidden;
 }
 
+
+
 /*header*/
 
 .header-container{
@@ -657,6 +659,10 @@ body{
   line-height: 24px;
 }
 
+.section-cart-accordion-list__item-real-price-number-too-big{
+  font-size: 13px;
+}
+
 .section-cart-accordion-list__item-price-tooltip{
   position: relative;
   cursor: pointer;
@@ -1062,6 +1068,10 @@ body{
   line-height: 32px;
 }
 
+.section-total-top__total-price-small{
+  font-size: 19px;
+}
+
 .section-total-middle{
   margin-bottom: 25px;
 }
@@ -1213,7 +1223,7 @@ body{
 .section-total-bottom__btn{
   width: 100%;
   margin-bottom: 8px;
-  padding: 7.5px 32px 12px;
+  padding: 7.5px 0 12px;
   border-radius: 8px;
   background-color: var(--color_CB11AB);
   font-weight: 700;

@@ -55,11 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         if (totalAmount%10===1 && totalAmount!==11){
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товар'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товар'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3))) + ' ' + 'сом';
         } else if ((totalAmount%10===2 || totalAmount%10===3 || totalAmount%10==4) && (totalAmount!==12 || totalAmount!==13 || totalAmount!==14)){
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товара'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товара'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3))) + ' ' + 'сом';
         } else{
-          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товаров'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3)));
+          accordionHeader.querySelector('.section-cart-accordion__header-text').innerHTML = `${totalAmount}`+' '+'товаров'+' · '+makeStrfromNumber(parseFloat((totalSumm).toFixed(3))) + ' ' + 'сом';
         };
       };
     });
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.screen.availWidth < 685){
       emailInput.parentNode.querySelector('.section-recipient-form__label').innerHTML = 'Электронная почта'
     }
-  })
+  });
 
   telInput.addEventListener('focus', function() {
     if(!this.value.trim()){
@@ -764,45 +764,71 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i<itemsAvailable.length; i++){
       if (itemsAvailable[i].classList.contains('section-cart-accordion-list__item-remain')) {
         if (itemsAvailable[i].querySelector('.section-cart-accordion-list__item-input').checked) {
-          let itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
-          let totalItemPrice = parseFloat((itemAmount*goodsPrices[i].itemPrice).toFixed(3));
-          let totalItemPreviosPrice = parseFloat((itemAmount*goodsPrices[i].itemPreviosPrice).toFixed(3));
+          const itemAmount = parseInt(itemsAvailable[i].querySelector('.section-cart-accordion-list__item-count').innerHTML);
+          const totalItemPrice = parseFloat((itemAmount*goodsPrices[i].itemPrice).toFixed(3));
+          const totalItemPreviosPrice = parseFloat((itemAmount*goodsPrices[i].itemPreviosPrice).toFixed(3));
           
           totalSumm += totalItemPrice;
           totalPreviousSumm += totalItemPreviosPrice;
           totalAmount += itemAmount
           totalDiscount += itemAmount*goodsPrices[i].itemDiscount;
+
+          const totalItemPriceText = itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number');
   
-          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML = `${totalItemPrice}`;
-          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = `${totalItemPreviosPrice} сом`;
+          totalItemPriceText.innerHTML = makeStrfromNumber(totalItemPrice);
+          itemsAvailable[i].querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML = makeStrfromNumber(totalItemPreviosPrice) + ' ' + 'сом';
+          
+
+          if (window.screen.availWidth < 685){
+            if(totalItemPriceText.innerHTML.length > 10){
+              totalItemPriceText.parentNode.parentNode.classList.add('column');
+              itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.add('column-padding');
+            } else{
+              totalItemPriceText.parentNode.parentNode.classList.remove('column');
+              itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.remove('column-padding');
+            };
+          } else{
+            totalPrice.classList.remove('section-total-top__total-price-small');
+            totalItemPriceText.parentNode.parentNode.classList.remove('column');
+            itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.remove('column-padding');
+            if(totalItemPriceText.innerHTML.length > 12){
+              totalItemPriceText.classList.add('section-cart-accordion-list__item-real-price-number-too-big');
+            } else if (totalItemPriceText.innerHTML.length > 6) {
+              totalItemPriceText.classList.add('section-cart-accordion-list__item-real-price-number-big');
+              totalItemPriceText.classList.remove('section-cart-accordion-list__item-real-price-number-too-big');
+            } else {
+              totalItemPriceText.classList.remove('section-cart-accordion-list__item-real-price-number-big');
+            };
+          };
+
+          window.addEventListener('resize', () => {
+            if (window.screen.availWidth < 685){
+              if(totalItemPriceText.innerHTML.length > 10){
+                totalItemPriceText.parentNode.parentNode.classList.add('column');
+                itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.add('column-padding');
+              } else{
+                totalItemPriceText.parentNode.parentNode.classList.remove('column');
+                itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.remove('column-padding');
+              };
+            } else{
+              totalPrice.classList.remove('section-total-top__total-price-small');
+              totalItemPriceText.parentNode.parentNode.classList.remove('column');
+              itemsAvailable[i].querySelector('.section-cart-accordion-list__item-remain-content').classList.remove('column-padding');
+              if(totalItemPriceText.innerHTML.length > 12){
+                totalItemPriceText.classList.add('section-cart-accordion-list__item-real-price-number-too-big');
+              } else if (totalItemPriceText.innerHTML.length > 6) {
+                totalItemPriceText.classList.add('section-cart-accordion-list__item-real-price-number-big');
+                totalItemPriceText.classList.remove('section-cart-accordion-list__item-real-price-number-too-big');
+              } else {
+                totalItemPriceText.classList.remove('section-cart-accordion-list__item-real-price-number-big');
+              };
+            };
+          });
           
         };
       }
 
     }
-
-    /*listItemsAvailable.querySelectorAll('.section-cart-accordion-list__item-remain').forEach(function(el){
-      if (el.querySelector('.section-cart-accordion-list__item-input').checked) {
-        let itemAmount = parseInt(el.querySelector('.section-cart-accordion-list__item-count').innerHTML);
-        let itemTotalPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-real-price-number').innerHTML.split(' ').join(''));
-        let itemPreviosTotalPrice = parseInt(el.querySelector('.section-cart-accordion-list__item-price-tooltip-text').innerHTML.split(' ').join(''));
-        let itemDiscount;
-
-        if(itemPreviosAmount){
-          totalSumm += itemAmount*(itemTotalPrice/itemPreviosAmount);
-          console.log(itemTotalPrice/itemPreviosAmount)
-          totalPreviousSumm += itemAmount*(itemPreviosTotalPrice/itemPreviosAmount);
-          itemDiscount = (itemPreviosTotalPrice - itemTotalPrice)/itemPreviosAmount;
-        } else {
-          totalSumm += itemTotalPrice;
-          totalPreviousSumm += itemPreviosTotalPrice
-        }
-
-        itemDiscount = (itemPreviosTotalPrice - itemTotalPrice)/itemAmount;
-        totalAmount += itemAmount
-        totalDiscount += itemAmount*itemDiscount;
-      };
-    });*/
 
     if (totalAmount%10===1 && totalAmount!==11){
       blockForPrice.querySelector('.section-total-top__item-amount').innerHTML = `${totalAmount}`+' '+'товар';
@@ -812,13 +838,31 @@ document.addEventListener("DOMContentLoaded", () => {
       blockForPrice.querySelector('.section-total-top__item-amount').innerHTML = `${totalAmount}`+' '+'товаров';
     }
 
-    totalPrice.innerHTML = makeStrfromNumber(totalSumm);
-    blockForPrice.querySelector('.section-total-top__item-prev-price').innerHTML = makeStrfromNumber(totalPreviousSumm);
-    blockForPrice.querySelector('.section-total-top__item-discount').innerHTML = '−'+ makeStrfromNumber(totalDiscount);
+    totalPrice.innerHTML = makeStrfromNumber(totalSumm)  + ' ' + 'сом';
+    blockForPrice.querySelector('.section-total-top__item-prev-price').innerHTML = makeStrfromNumber(totalPreviousSumm)  + ' ' + 'сом';
+    blockForPrice.querySelector('.section-total-top__item-discount').innerHTML = '−'+ makeStrfromNumber(totalDiscount)  + ' ' + 'сом';
 
     if (payNowCheck.checked){
       oderBtn.innerHTML = 'Оплатить' + ' ' + `${totalPrice.innerHTML}`;
-    }
+    };
+
+    if (window.screen.availWidth < 1399) {
+      if (totalPrice.innerHTML.length > 15){
+        totalPrice.classList.add('section-total-top__total-price-small');
+      } else {
+        totalPrice.classList.remove('section-total-top__total-price-small');
+      };
+    };
+
+    window.addEventListener('resize', () => {
+      if (window.screen.availWidth < 1399) {
+        if (totalPrice.innerHTML.length > 15){
+          totalPrice.classList.add('section-total-top__total-price-small');
+        } else {
+          totalPrice.classList.remove('section-total-top__total-price-small');
+        };
+      };
+    })
 
     calculateAmountInDilivery();
   };
@@ -829,14 +873,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let count = 0;
 
     for (let i in masNumber){
-      if(count%3===0){
+      if(count%3===0 && masNumber[masNumber.length-1-i] !== '.'){
         strNumber += ' ';
       }
+      if (masNumber[masNumber.length-1-i] === '.'){
+        count = 0;
+      } else {
+        count++;
+      }
       strNumber += `${masNumber[masNumber.length-1-i]}`;
-      count++;
+      
     }
 
-    const resultStr = strNumber.split('').reverse().join('') + ' ' + 'сом';
+    const resultStr = strNumber.split('').reverse().join('');
     return(resultStr);
   };
 

@@ -601,4 +601,13 @@
     padding: 16px;
     border-radius: 0;
   }
+  
+  .column{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .column-padding{
+    padding-top: 40px;
+  }
 }
