@@ -978,7 +978,7 @@ body{
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 24px;
   color: var(--color_000);
 }
@@ -1290,7 +1290,7 @@ body{
 
 .modal-container{
   width: 500px;
-  min-height: 410px;
+  min-height: 408px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1302,6 +1302,10 @@ body{
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   background-color: var(--color_FFF);
+}
+
+.modal-container-card{
+  width: 400px;
 }
 
 .modal-header{
@@ -1331,12 +1335,12 @@ body{
 }
 
 .modal-delivery-btns{
-  margin-bottom: 26px;
+  margin-bottom: 25px;
 }
 
 .modal-delivery-btns__btn{
   width: calc((100%-8px/2));
-  padding: 9px 10px 11px;
+  padding: 6px 10px 10px;
   border: 2px solid rgba(203, 17, 171, 0.15);
   border-radius: 20px;
   font-weight: 700;
@@ -1368,7 +1372,7 @@ body{
 }
 
 .modal-checkboxes__title{
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   font-weight: 700;
   font-size: 13px;
   line-height: 16px;
@@ -1388,11 +1392,19 @@ body{
   margin-bottom: 20px;
 }
 
+.modal-checkbox-card:not(:last-child){
+  margin-bottom: 16px;
+}
+
 .modal-checkbox__label{
   position: relative;
   cursor: pointer;
   max-width: 92%;
   padding-left: 15px;  
+}
+
+.modal-checkbox__label-card{
+  padding-left: 13px;  
 }
 
 .modal-checkbox__input{
@@ -1433,7 +1445,7 @@ body{
 .modal-checkbox__icon{
   width: 32px;
   height: 24px;
-  margin-right: 8px;
+  margin-right: 5px;
   border-radius: 4px;
   background-color: var(--color_F6F6FA);
   background-size: 30px 9px;

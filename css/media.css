@@ -316,6 +316,11 @@
     font-size: 16px;
     line-height: 24px;
   }
+
+  .section-cart-accordion-list__item-price-tooltip {
+    padding-top: 5px;
+    font-size: 12px;
+  }
   
   .section-cart-accordion-list__item-price-popup{
     right: -50px;
@@ -600,6 +605,26 @@
     min-height: 100%;
     padding: 16px;
     border-radius: 0;
+  }
+
+  .modal-header{
+    margin-bottom: 17px;
+  }
+
+  .modal-delivery-btns__btn{
+    padding: 8px 10px 12px;
+  }
+
+  .modal-checkbox:not(:last-child) {
+    margin-bottom: 24px;
+  }
+
+  .modal-submit{
+    width: 100%;
+  }
+  
+  .modal-submit__btn{
+    width: 100%;
   }
   
   .column{

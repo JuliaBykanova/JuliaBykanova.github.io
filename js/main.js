@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
     homeAdress: ['Бишкек, улица Табышалиева, 57', 
     'Бишкек, улица Жукеева-Пудовкина, 77/1', 
     'Бишкек, микрорайон Джал, улица Ахунбаева Исы, 67/1'],
-    pointAdress: ['Бишкек, улица Ахматбека Суюмбаева, 12/1', 
+    pointAdress: ['г. Бишкек, улица Ахматбека Суюмбаева, 12/1', 
     'г. Бишкек, микрорайон Джал, улица Ахунбаева Исы, д. 67/1', 
     'г. Бишкек, улица Табышалиева, д. 57'],
     allCardsName: ['mir', 'visa', 'mastercard', 'maestro'],
@@ -435,6 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hangListenerOnModalBtns (modalDeliveryBtn1, modalDeliveryBtn2, pointAdress, homeAdress, deliveryAdress, allCardsName, modalCheckboxesList, modalDeliveryTitle);
 
     }else if(cardNumber){
+      modalContainer.classList.add('modal-container-card');
       createModalCheckboxes(allCardsNumber, false, false, cardNumber, allCardsName, modalCheckboxesList);
     };
 
@@ -583,6 +584,8 @@ document.addEventListener("DOMContentLoaded", () => {
           modalCheckbox.remove();
         });
       }else{
+        modalCheckbox.classList.add('modal-checkbox-card');
+        modalCheckboxLabel.classList.add('modal-checkbox__label-card');
         modalCheckboxDescr.classList.add('modal-checkbox__text', 'flex');
         modalCheckboxIcon.classList.add('modal-checkbox__icon');
 
@@ -971,6 +974,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
   };
+
+  calculateTotalPrice();
 
 });
 
