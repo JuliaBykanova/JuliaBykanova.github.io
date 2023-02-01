@@ -564,6 +564,18 @@
   background-image: url(../img/delete-red.svg);
 }
 
+.modal-submit__btn{
+  -webkit-transition-property: background-color;
+  -o-transition-property: background-color;
+  transition-property: background-color;
+  -webkit-transition-duration: 0.05s;
+       -o-transition-duration: 0.05s;
+          transition-duration: 0.05s;
+  -webkit-transition-timing-function: ease-in-out;
+       -o-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+}
+
 .modal-submit__btn:hover{
   background-color: var(--color_f265da);
 }
